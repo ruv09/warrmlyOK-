@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import { Switch, View } from "react-native";
+import { Pressable, Switch, View } from "react-native";
 import { useRouter } from "expo-router";
+import { Ionicons } from "@expo/vector-icons";
 import * as Haptics from "expo-haptics";
 import { KeyboardScreen } from "../components/layout";
 import { Button, Text, TextInput } from "../components/ui";
@@ -13,6 +14,9 @@ const TIME_PATTERN = /^([01]\d|2[0-3]):([0-5]\d)$/;
 /**
  * Время и раздельные тумблеры утро/вечер.
  * Оба сразу — это потолок, не обязанность.
+ *
+ * Кастомный back + title вместо Stack header — единый фон от верхнего
+ * края (важно для Android 16 edge-to-edge и immersive mode).
  */
 export function NotificationsScreen() {
   const theme = useTheme();
@@ -66,7 +70,38 @@ export function NotificationsScreen() {
   );
 
   return (
-    <KeyboardScreen>
+    <KeyboardScreen insideTab>
+      <Pressable
+        onPress={() => router.back()}
+        hitSlop={10}
+        accessibilityRole="button"
+        accessibilityLabel="Назад"
+        style={{
+          width: 36,
+          height: 36,
+          borderRadius: 10,
+          alignItems: "center",
+          justifyContent: "center",
+          backgroundColor: theme.colors.surface,
+          borderWidth: 1,
+          borderColor: theme.colors.border,
+          marginBottom: theme.spacing("sm"),
+        }}
+      >
+        <Ionicons name="chevron-back" size={20} color={theme.colors.textPrimary} />
+      </Pressable>
+
+      <Text
+        style={{
+          fontSize: theme.typography.sizes.title,
+          fontWeight: theme.typography.weights.semibold,
+          color: theme.colors.textPrimary,
+          marginBottom: theme.spacing("sm"),
+        }}
+      >
+        Уведомления
+      </Text>
+
       <Text style={{ color: theme.colors.textSecondary, lineHeight: 22 }}>
         Самое большее два тихих напоминания в день, без звука. Вечернее не придёт, если день уже
         записан.
@@ -106,7 +141,7 @@ export function NotificationsScreen() {
         style={[inputStyle, { opacity: eveningEnabled ? 1 : 0.45 }]}
       />
 
-      <Text style={{ height: theme.spacing("xl") }} />
+      <View style={{ height: theme.spacing("xl") }} />
       <Button label="Сохранить" onPress={handleSave} disabled={!isValid} />
     </KeyboardScreen>
   );

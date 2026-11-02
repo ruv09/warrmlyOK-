@@ -1,25 +1,28 @@
 import React from "react";
 import { Stack } from "expo-router";
+import { useTheme } from "../../../src/theme";
 
 /**
  * Вложенный Stack внутри вкладки "Профиль".
  *
- * Отличие от entry/[id] в корневом Stack: здесь переход
- * (например, в настройки уведомлений) остаётся "внутри" вкладки —
- * таб-бар не скрывается, что уместно для настроек (человек может
- * переключиться на другую вкладку и вернуться в то же место
- * профиля). Для entry/[id] выбрано обратное поведение — см.
- * комментарий в app/_layout.tsx.
- *
- * Новый экран настроек в будущем (например, "Экспорт данных" как
- * отдельный шаг, а не кнопка) — это файл в этой папке + одна строка
- * Stack.Screen здесь. Остальная навигация приложения не меняется.
+ * headerShown: false для всех экранов — единый фон от края до края,
+ * кастомная кнопка «Назад» внутри экранов (как в Favorites / EntryDetail).
+ * Это устраняет белую полосу сверху на Android 16 / edge-to-edge:
+ * системный Stack header по умолчанию белый и не совпадает с палитрой Warmly.
  */
 export default function ProfileLayout() {
+  const theme = useTheme();
+
   return (
-    <Stack screenOptions={{ headerShown: true }}>
-      <Stack.Screen name="index" options={{ title: "Профиль", headerShown: false }} />
-      <Stack.Screen name="notifications" options={{ title: "Уведомления" }} />
+    <Stack
+      screenOptions={{
+        headerShown: false,
+        contentStyle: { backgroundColor: theme.colors.background },
+        animation: "slide_from_right",
+      }}
+    >
+      <Stack.Screen name="index" />
+      <Stack.Screen name="notifications" />
     </Stack>
   );
 }

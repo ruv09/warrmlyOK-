@@ -3,6 +3,11 @@ import { ScrollView, StyleSheet, View, ViewStyle } from "react-native";
 import { SafeAreaView, Edge } from "react-native-safe-area-context";
 import { useTheme } from "../../theme";
 
+/** Высота таб-бара приложения (см. app/(tabs)/_layout.tsx). */
+const TAB_BAR_HEIGHT = 66;
+/** Дополнительный зазор под таб-баром, чтобы контент не прилипал. */
+const TAB_BAR_CLEARANCE = 18;
+
 interface ScreenProps {
   children: React.ReactNode;
   scroll?: boolean;
@@ -30,6 +35,11 @@ interface ScreenProps {
  * Никаких фиксированных высот: контейнер растягивается через flex,
  * а не через заданные в dp размеры экрана — на iPhone SE, iPhone 16
  * Pro Max и планшетах это один и тот же код без веток по устройству.
+ *
+ * Когда edges не включают "bottom" (таб-экраны с absolute tab bar),
+ * добавляем paddingBottom = TAB_BAR_HEIGHT + clearance, чтобы
+ * контент не уходил под нижнюю навигацию на коротких экранах
+ * (в т.ч. Samsung Galaxy S22 и подобные).
  */
 export function Screen({ children, scroll = true, edges, style }: ScreenProps) {
   const theme = useTheme();
@@ -37,13 +47,21 @@ export function Screen({ children, scroll = true, edges, style }: ScreenProps) {
   const paddingHorizontal = theme.spacing("md");
   const paddingVertical = theme.spacing("md");
 
+  const excludesBottom = Array.isArray(edges) && !edges.includes("bottom");
+  const bottomClearance = excludesBottom ? TAB_BAR_HEIGHT + TAB_BAR_CLEARANCE : 0;
+
   if (!scroll) {
     return (
       <SafeAreaView
         edges={edges}
         style={[
           styles.flexFill,
-          { backgroundColor: theme.colors.background, paddingHorizontal, paddingVertical },
+          {
+            backgroundColor: theme.colors.background,
+            paddingHorizontal,
+            paddingTop: paddingVertical,
+            paddingBottom: paddingVertical + bottomClearance,
+          },
           style,
         ]}
       >
@@ -57,7 +75,11 @@ export function Screen({ children, scroll = true, edges, style }: ScreenProps) {
       <ScrollView
         contentContainerStyle={[
           styles.scrollContent,
-          { paddingHorizontal, paddingVertical },
+          {
+            paddingHorizontal,
+            paddingTop: paddingVertical,
+            paddingBottom: paddingVertical + bottomClearance,
+          },
           style,
         ]}
       >
