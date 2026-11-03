@@ -5,6 +5,15 @@ import { useTheme } from "../../src/theme";
 import { TabBarIcon } from "../../src/components/ui";
 
 /**
+ * В Expo Router SDK 58 prop initialRouteName убран с уровня навигатора.
+ * Начальный экран задаётся через unstable_settings (file-level).
+ * «index» — главная с поддерживающей фразой.
+ */
+export const unstable_settings = {
+  initialRouteName: "index",
+};
+
+/**
  * Главная с поддерживающей фразой — первый экран.
  * Дальше: Дневник / Лес / Календарь / Профиль. Без «Дыши».
  */
@@ -14,7 +23,6 @@ export default function TabsLayout() {
 
   return (
     <Tabs
-      initialRouteName="index"
       // На Android системный Navigation Bar скрыт — не добавляем его inset
       // к таб-бару приложения, иначе снизу появляется пустая полоса.
       safeAreaInsets={Platform.OS === "android" ? { bottom: 0 } : undefined}
