@@ -1,4 +1,4 @@
-import React, { forwardRef } from "react";
+import React, { forwardRef, type ElementRef } from "react";
 import { StyleSheet, TextInput as RNTextInput, TextInputProps } from "react-native";
 import { mapFontWeight, resolveTypeface, TypefaceKind } from "../../theme/tokens/typography";
 
@@ -9,8 +9,11 @@ type Props = TextInputProps & {
 /**
  * Поле ввода в той же гарнитуре, что и текст: Nunito по умолчанию,
  * Literata для заметок дневника.
+ *
+ * ElementRef<typeof RNTextInput> — instance type (с .focus()), совместимый
+ * с React Native 0.88 / _TextInputInstance.
  */
-export const TextInput = forwardRef<RNTextInput, Props>(function TextInput(
+export const TextInput = forwardRef<ElementRef<typeof RNTextInput>, Props>(function TextInput(
   { style, face = "ui", ...rest },
   ref,
 ) {
