@@ -6,12 +6,11 @@ import { TabBarIcon } from "../../src/components/ui";
 import { buildTabBarStyle, useTabBarMetrics } from "../../src/hooks/useTabBarMetrics";
 
 /**
- * В Expo Router SDK 58 prop initialRouteName убран с уровня навигатора.
- * Начальный экран задаётся через unstable_settings (file-level).
+ * В Expo Router начальный экран задаётся через unstable_settings.
  * «index» — главная с поддерживающей фразой.
  */
 export const unstable_settings = {
-  initialRouteName: "index",
+  anchor: "index",
 };
 
 /**
