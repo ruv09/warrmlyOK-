@@ -99,6 +99,7 @@ export function HomeScreen() {
             fontWeight: theme.typography.weights.semibold,
             color: theme.colors.textPrimary,
           }}
+          maxFontSizeMultiplier={theme.typography.scaleLimits.content}
         >
           {quote}
         </Text>

@@ -2,11 +2,7 @@ import React from "react";
 import { ScrollView, StyleSheet, View, ViewStyle } from "react-native";
 import { SafeAreaView, Edge } from "react-native-safe-area-context";
 import { useTheme } from "../../theme";
-
-/** Высота таб-бара приложения (см. app/(tabs)/_layout.tsx). */
-const TAB_BAR_HEIGHT = 66;
-/** Дополнительный зазор под таб-баром, чтобы контент не прилипал. */
-const TAB_BAR_CLEARANCE = 18;
+import { useTabBarMetrics } from "../../hooks/useTabBarMetrics";
 
 interface ScreenProps {
   children: React.ReactNode;
@@ -37,18 +33,20 @@ interface ScreenProps {
  * Pro Max и планшетах это один и тот же код без веток по устройству.
  *
  * Когда edges не включают "bottom" (таб-экраны с absolute tab bar),
- * добавляем paddingBottom = TAB_BAR_HEIGHT + clearance, чтобы
- * контент не уходил под нижнюю навигацию на коротких экранах
- * (в т.ч. Samsung Galaxy S22 и подобные).
+ * добавляем paddingBottom = высота таб-бара + зазор (useTabBarMetrics),
+ * чтобы контент не уходил под нижнюю навигацию на коротких экранах
+ * (в т.ч. Samsung Galaxy S22 и подобные). Число берётся из того же
+ * хука, что и сам таб-бар, поэтому не может с ним разойтись.
  */
 export function Screen({ children, scroll = true, edges, style }: ScreenProps) {
   const theme = useTheme();
+  const tabBar = useTabBarMetrics();
 
   const paddingHorizontal = theme.spacing("md");
   const paddingVertical = theme.spacing("md");
 
   const excludesBottom = Array.isArray(edges) && !edges.includes("bottom");
-  const bottomClearance = excludesBottom ? TAB_BAR_HEIGHT + TAB_BAR_CLEARANCE : 0;
+  const bottomClearance = excludesBottom ? tabBar.clearance : 0;
 
   if (!scroll) {
     return (

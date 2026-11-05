@@ -3,7 +3,7 @@ import { BackHandler, StyleSheet, View } from "react-native";
 import { useNavigation } from "expo-router";
 import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
 import { ForestCatalog, TreeGroveScene } from "../components/forest";
-import { useEntries, useForest } from "../hooks";
+import { buildTabBarStyle, useEntries, useForest, useTabBarMetrics } from "../hooks";
 import { useTheme } from "../theme";
 import { resolveSceneMode, sceneModeFromTheme } from "../constants/sceneMode";
 import { CatalogItem } from "../services/forest/catalog";
@@ -14,9 +14,9 @@ import { CatalogItem } from "../services/forest/catalog";
  */
 export function ForestScreen() {
   const theme = useTheme();
-  const isDark = theme.mode === "dark";
   const navigation = useNavigation();
   const insets = useSafeAreaInsets();
+  const tabBar = useTabBarMetrics();
   const { trees, isLoading: treesLoading } = useForest();
   const { entries, isLoading: entriesLoading } = useEntries();
   const [selectedEntryId, setSelectedEntryId] = useState<string | null>(null);
@@ -48,22 +48,9 @@ export function ForestScreen() {
     navigation.setOptions({
       tabBarStyle: selectedItem
         ? { display: "none", height: 0, overflow: "hidden", position: "absolute" }
-        : {
-            backgroundColor: theme.colors.tabBar,
-            borderTopWidth: 0,
-            borderTopLeftRadius: 18,
-            borderTopRightRadius: 18,
-            height: 66,
-            paddingTop: 6,
-            paddingBottom: 6,
-            position: "absolute",
-            shadowColor: "#000",
-            shadowOpacity: isDark ? 0.3 : 0.07,
-            shadowRadius: 14,
-            shadowOffset: { width: 0, height: -4 },
-          },
+        : buildTabBarStyle(theme, tabBar),
     });
-  }, [isDark, navigation, selectedItem, theme.colors.tabBar]);
+  }, [navigation, selectedItem, tabBar, theme]);
 
   const onSelectItem = useCallback((item: CatalogItem) => {
     setSelectedEntryId(item.entry.id);
@@ -80,7 +67,7 @@ export function ForestScreen() {
           entries={entries}
           trees={trees}
           onSelectItem={onSelectItem}
-          bottomInset={insets.bottom}
+          bottomInset={Math.max(insets.bottom, tabBar.clearance)}
           isLoading={treesLoading || entriesLoading}
           sceneMode={sceneMode}
         />

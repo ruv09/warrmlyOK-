@@ -93,6 +93,7 @@ export function FavoritesScreen() {
                   fontStyle: "italic",
                   lineHeight: 24,
                 }}
+                maxFontSizeMultiplier={theme.typography.scaleLimits.content}
               >
                 «{quote}»
               </Text>

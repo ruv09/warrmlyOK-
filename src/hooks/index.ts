@@ -4,3 +4,4 @@ export * from "./useSettings";
 export * from "./useDeviceMetrics";
 export * from "./useStatistics";
 export * from "./useFavorites";
+export * from "./useTabBarMetrics";

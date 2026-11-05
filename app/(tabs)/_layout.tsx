@@ -3,6 +3,7 @@ import { Platform } from "react-native";
 import { Tabs } from "expo-router";
 import { useTheme } from "../../src/theme";
 import { TabBarIcon } from "../../src/components/ui";
+import { buildTabBarStyle, useTabBarMetrics } from "../../src/hooks/useTabBarMetrics";
 
 /**
  * В Expo Router SDK 58 prop initialRouteName убран с уровня навигатора.
@@ -20,6 +21,7 @@ export const unstable_settings = {
 export default function TabsLayout() {
   const theme = useTheme();
   const isDark = theme.mode === "dark";
+  const tabBar = useTabBarMetrics();
 
   return (
     <Tabs
@@ -29,26 +31,17 @@ export default function TabsLayout() {
       screenOptions={{
         headerShown: false,
         tabBarShowLabel: true,
+        // Подписи живут в таб-баре фиксированной высоты: системное
+        // масштабирование шрифта здесь выключено, иначе при крупном
+        // шрифте они наезжают на иконки и обрезаются.
+        tabBarAllowFontScaling: false,
         tabBarActiveTintColor: isDark ? theme.colors.accentWarm : theme.colors.accent,
         tabBarInactiveTintColor: theme.colors.textSecondary,
         tabBarLabelStyle: {
           fontSize: theme.typography.sizes.caption - 1,
           fontFamily: theme.typography.fonts.medium,
         },
-        tabBarStyle: {
-          backgroundColor: theme.colors.tabBar,
-          borderTopWidth: 0,
-          borderTopLeftRadius: 18,
-          borderTopRightRadius: 18,
-          height: 66,
-          paddingTop: 6,
-          paddingBottom: 6,
-          position: "absolute",
-          shadowColor: "#000",
-          shadowOpacity: isDark ? 0.3 : 0.07,
-          shadowRadius: 14,
-          shadowOffset: { width: 0, height: -4 },
-        },
+        tabBarStyle: buildTabBarStyle(theme, tabBar),
       }}
     >
       <Tabs.Screen

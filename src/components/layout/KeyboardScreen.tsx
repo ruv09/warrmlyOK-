@@ -8,10 +8,7 @@ import {
 } from "react-native";
 import { SafeAreaView, Edge } from "react-native-safe-area-context";
 import { useTheme } from "../../theme";
-
-/** Высота таб-бара приложения (см. app/(tabs)/_layout.tsx). */
-const TAB_BAR_HEIGHT = 66;
-const TAB_BAR_CLEARANCE = 18;
+import { useTabBarMetrics } from "../../hooks/useTabBarMetrics";
 
 interface KeyboardScreenProps {
   children: React.ReactNode;
@@ -33,6 +30,10 @@ interface KeyboardScreenProps {
  * edge-to-edge (status bar hidden) нет белых полос сверху — цвет
  * фона идёт от самого края экрана, а insets применяются только
  * к внутреннему отступу контента.
+ *
+ * keyboardVerticalOffset = 0: ни один экран с формой не показывает
+ * навигационный header, так что компенсировать нечего — смещение
+ * только оставляло бы лишний зазор между клавиатурой и контентом.
  */
 export function KeyboardScreen({
   children,
@@ -41,9 +42,10 @@ export function KeyboardScreen({
   insideTab = false,
 }: KeyboardScreenProps) {
   const theme = useTheme();
+  const tabBar = useTabBarMetrics();
   const paddingHorizontal = theme.spacing("md");
   const paddingVertical = theme.spacing("md");
-  const bottomClearance = insideTab ? TAB_BAR_HEIGHT + TAB_BAR_CLEARANCE : 0;
+  const bottomClearance = insideTab ? tabBar.clearance : 0;
 
   return (
     <SafeAreaView
@@ -53,7 +55,6 @@ export function KeyboardScreen({
       <KeyboardAvoidingView
         style={styles.flexFill}
         behavior={Platform.OS === "ios" ? "padding" : undefined}
-        keyboardVerticalOffset={Platform.OS === "ios" ? 64 : 0}
       >
         <ScrollView
           keyboardShouldPersistTaps="handled"

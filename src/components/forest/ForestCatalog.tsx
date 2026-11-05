@@ -8,8 +8,6 @@ import { CatalogItem, MonthSection, groupForestByMonth } from "../../services/fo
 import { Entry, SceneMode, Tree } from "../../types";
 import { entriesLabel } from "../../utils";
 
-const TAB_BAR_CLEARANCE = 66;
-
 type CatalogRow =
   | { type: "month"; key: string; title: string; count: number }
   | { type: "card"; key: string; item: CatalogItem };
@@ -18,6 +16,7 @@ type Props = {
   entries: Entry[];
   trees: Tree[];
   onSelectItem: (item: CatalogItem) => void;
+  /** Сколько места зарезервировать под списком (таб-бар + safe area). */
   bottomInset: number;
   isLoading?: boolean;
   sceneMode?: SceneMode | null;
@@ -110,7 +109,7 @@ export function ForestCatalog({
         maxToRenderPerBatch={3}
         contentContainerStyle={{
           paddingHorizontal: theme.spacing("lg"),
-          paddingBottom: TAB_BAR_CLEARANCE + bottomInset + 28,
+          paddingBottom: bottomInset + theme.spacing("sm"),
         }}
         ListHeaderComponent={<CatalogHeader />}
       />

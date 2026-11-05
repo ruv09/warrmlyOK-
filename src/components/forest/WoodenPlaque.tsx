@@ -4,7 +4,6 @@ import { Text } from "../ui";
 import { CatalogItem } from "../../services/forest/catalog";
 import { SceneMode } from "../../types";
 import { parseDateKey } from "../../utils/date";
-import { useTheme } from "../../theme";
 
 const PLAQUE_SIGN = require("../../../assets/forest/plaque-sign.png");
 
@@ -38,7 +37,6 @@ function formatPlaqueDate(dateKey: string, time?: string): string {
  * исходные 851×623, текст только на доске.
  */
 export function WoodenPlaque({ item, width, maxHeight, compact = false }: Props) {
-  const theme = useTheme();
   const ink = "#2A1C10";
   const muted = "#6A4A2C";
   const { note, extra } = plaqueCopy(item);
@@ -81,7 +79,7 @@ export function WoodenPlaque({ item, width, maxHeight, compact = false }: Props)
             lineHeight: noteSize + 3,
             textAlign: "center",
           }}
-          maxFontSizeMultiplier={theme.typography.scaleLimits.content}
+          allowFontScaling={false}
         >
           {note}
         </Text>
@@ -97,7 +95,7 @@ export function WoodenPlaque({ item, width, maxHeight, compact = false }: Props)
               textAlign: "center",
               fontStyle: "italic",
             }}
-            maxFontSizeMultiplier={theme.typography.scaleLimits.content}
+            allowFontScaling={false}
           >
             {extra}
           </Text>
@@ -109,7 +107,7 @@ export function WoodenPlaque({ item, width, maxHeight, compact = false }: Props)
             fontSize: Math.max(8, extraSize - 1),
             textAlign: "center",
           }}
-          maxFontSizeMultiplier={theme.typography.scaleLimits.ui}
+          allowFontScaling={false}
         >
           {dateLabel}
         </Text>

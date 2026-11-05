@@ -6,6 +6,7 @@
     "version": "2.0.3",
     "orientation": "portrait",
     "userInterfaceStyle": "automatic",
+    "backgroundColor": "#EBE6D4",
     "icon": "./assets/brand/icon.png",
     "assetBundlePatterns": [
       "**/*"
@@ -15,13 +16,9 @@
       "bundleIdentifier": "com.warmly.app",
       "buildNumber": "1"
     },
-    "androidStatusBar": {
-      "hidden": true,
-      "translucent": true,
-      "backgroundColor": "#00000000"
-    },
     "android": {
       "package": "com.warmly.app",
+      "backgroundColor": "#EBE6D4",
       "versionCode": 4,
       "softwareKeyboardLayoutMode": "resize",
       "adaptiveIcon": {

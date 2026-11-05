@@ -307,6 +307,7 @@ export function ProfileScreen() {
             lineHeight: 22,
             marginBottom: theme.spacing("sm"),
           }}
+          maxFontSizeMultiplier={theme.typography.scaleLimits.content}
         >
           «{thoughtOfDay}»
         </Text>

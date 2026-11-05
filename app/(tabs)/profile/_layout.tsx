@@ -1,14 +1,15 @@
 import React from "react";
+import { Platform } from "react-native";
 import { Stack } from "expo-router";
 import { useTheme } from "../../../src/theme";
 
 /**
  * Вложенный Stack внутри вкладки "Профиль".
  *
- * headerShown: false для всех экранов — единый фон от края до края,
- * кастомная кнопка «Назад» внутри экранов (как в Favorites / EntryDetail).
- * Это устраняет белую полосу сверху на Android 16 / edge-to-edge:
- * системный Stack header по умолчанию белый и не совпадает с палитрой Warmly.
+ * headerShown: false — без системного белого header.
+ * statusBarTranslucent — контент и фон идут от физического края экрана;
+ * safe-area отступ добавляет уже KeyboardScreen, а не пустая полоса стека.
+ * Так устроен экран настройки времени на Android 16 / edge-to-edge.
  */
 export default function ProfileLayout() {
   const theme = useTheme();
@@ -17,7 +18,12 @@ export default function ProfileLayout() {
     <Stack
       screenOptions={{
         headerShown: false,
+        statusBarTranslucent: true,
+        navigationBarTranslucent: true,
+        statusBarHidden: Platform.OS === "android",
+        statusBarStyle: theme.mode === "dark" ? "light" : "dark",
         contentStyle: { backgroundColor: theme.colors.background },
+        headerStyle: { backgroundColor: theme.colors.background },
         animation: "slide_from_right",
       }}
     >
