@@ -42,6 +42,17 @@ export type PhoneWidthClass = "narrow" | "standard" | "wide";
  */
 export const MAX_CONTENT_WIDTH = 560;
 
+/**
+ * Базовая высота нижней навигации Warmly без системного inset.
+ * Реальная высота таб-бара = TAB_BAR_BASE_HEIGHT + нижний safe-area inset
+ * (см. hooks/useTabBarMetrics.ts) — единственное место, откуда это число
+ * берут и сам таб-бар, и экраны, которые резервируют под него место.
+ */
+export const TAB_BAR_BASE_HEIGHT = 66;
+
+/** Зазор между концом контента и верхней кромкой таб-бара. */
+export const TAB_BAR_CLEARANCE = 18;
+
 export function getWindowSizeClass(width: number): WindowSizeClass {
   if (width >= WINDOW_SIZE_BREAKPOINTS.expanded) return "expanded";
   if (width >= WINDOW_SIZE_BREAKPOINTS.medium) return "medium";

@@ -52,7 +52,7 @@ export function MoodPicker({ selectedMoodId, onSelect }: MoodPickerProps) {
                   ? theme.typography.weights.semibold
                   : theme.typography.weights.regular,
               }}
-              numberOfLines={1}
+              numberOfLines={2}
               maxFontSizeMultiplier={theme.typography.scaleLimits.ui}
             >
               {mood.label}

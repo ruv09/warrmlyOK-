@@ -106,6 +106,7 @@ export function JournalScreen() {
               color: theme.colors.textPrimary,
               lineHeight: 24,
             }}
+            maxFontSizeMultiplier={theme.typography.scaleLimits.content}
           >
             {supportPhrase}
           </Text>

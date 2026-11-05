@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { ActivityIndicator, AppState, Keyboard, Platform, View } from "react-native";
 import { Stack, router, useSegments } from "expo-router";
 import { NavigationBar, addVisibilityListener } from "expo-navigation-bar";
-import { StatusBar, setStatusBarHidden } from "expo-status-bar";
+import { StatusBar } from "expo-status-bar";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { ErrorBoundary } from "../src/components/ErrorBoundary";
@@ -18,7 +18,7 @@ function useAndroidImmersive() {
     if (Platform.OS !== "android") return;
 
     const hide = () => {
-      setStatusBarHidden(true, "none");
+      StatusBar.setHidden(true, "none");
       NavigationBar.setHidden(true);
     };
 
@@ -94,7 +94,15 @@ function Bootstrap() {
       <Stack
         screenOptions={{
           headerShown: false,
+          // Edge-to-edge: сцена рисуется под системными панелями, а не
+          // ниже них. Иначе на Android 15/16 над экраном остаётся полоса
+          // цвета окна (белая), особенно на вложенном экране уведомлений.
+          statusBarTranslucent: true,
+          navigationBarTranslucent: true,
+          statusBarHidden: Platform.OS === "android",
+          statusBarStyle: barStyle,
           contentStyle: { backgroundColor: theme.colors.background },
+          headerStyle: { backgroundColor: theme.colors.background },
         }}
       >
         <Stack.Screen name="welcome" />

@@ -193,7 +193,7 @@ export function CalendarScreen() {
             keyExtractor={(entry) => entry.id}
             renderItem={renderEntry}
             showsVerticalScrollIndicator={false}
-            contentContainerStyle={{ paddingBottom: 88 }}
+            contentContainerStyle={{ paddingBottom: theme.spacing("md") }}
           />
         )}
       </View>

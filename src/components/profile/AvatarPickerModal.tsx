@@ -80,7 +80,7 @@ export function AvatarPickerModal({
                       },
                     ]}
                   >
-                    <Image source={preset.image} style={styles.avatarImage} />
+                    <Image source={preset.image} style={styles.avatarImage} resizeMode="cover" />
                   </View>
                   <Text
                     style={{
@@ -132,17 +132,19 @@ const styles = StyleSheet.create({
   cell: {
     width: "22%",
     flexGrow: 1,
-    maxWidth: "23%",
+    flexBasis: "22%",
+    maxWidth: "25%",
     alignItems: "center",
   },
   avatarRing: {
-    width: 64,
-    height: 64,
-    borderRadius: 32,
+    width: "100%",
+    maxWidth: 64,
+    aspectRatio: 1,
+    borderRadius: 999,
     overflow: "hidden",
   },
   avatarImage: {
-    width: 64,
-    height: 64,
+    width: "100%",
+    height: "100%",
   },
 });

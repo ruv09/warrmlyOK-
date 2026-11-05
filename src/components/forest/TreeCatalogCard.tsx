@@ -5,6 +5,7 @@ import { ForestSceneBackdrop } from "./ForestSceneBackdrop";
 import { CatalogItem } from "../../services/forest/catalog";
 import { getGroveEdges, getGroveScene } from "../../constants/groveScenes";
 import { getTreeDefinition } from "../../constants/treeDefinitions";
+import { MAX_CONTENT_WIDTH } from "../../constants/layout";
 import { getContainedSceneFrame, layoutPlaqueInScene } from "../../services/forest/backgroundFit";
 import { SceneMode } from "../../types";
 import { useTheme } from "../../theme";
@@ -24,7 +25,10 @@ export function TreeCatalogCard({ item, sceneMode, onPress }: Props) {
   const tree = getTreeDefinition(item.tree.species);
   const scene = getGroveScene(item.tree.species, sceneMode);
   const edges = getGroveEdges(item.tree.species, sceneMode);
-  const cardWidth = Math.max(220, window.width - theme.spacing("lg") * 2);
+  const cardWidth = Math.min(
+    MAX_CONTENT_WIDTH,
+    Math.max(220, window.width - theme.spacing("lg") * 2),
+  );
   const cardHeight = Math.min(
     Math.round(cardWidth / tree.sceneAspect),
     Math.round(window.height * 0.58),

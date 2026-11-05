@@ -54,7 +54,7 @@ export default function WelcomeScreen() {
 
   return (
     <KeyboardScreen>
-      <View style={{ flex: 1, justifyContent: "space-between", minHeight: 480 }}>
+      <View style={{ flexGrow: 1, justifyContent: "space-between" }}>
         <View style={{ alignItems: "center", marginTop: theme.spacing("xxl"), gap: 8 }}>
           <Text
             style={{
