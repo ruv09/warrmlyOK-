@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Prepare local Android build: SDK path + NDK 27.1.12297006 (Expo SDK 57).
+# Prepare local Android build: SDK path + NDK 27.1.12297006 (Expo SDK 58 / RN 0.88).
 set -euo pipefail
 
 NDK_VERSION="27.1.12297006"

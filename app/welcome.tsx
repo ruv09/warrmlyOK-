@@ -1,4 +1,4 @@
-import React, { useRef, useState, type ElementRef } from "react";
+import React, { useRef, useState, type ComponentRef } from "react";
 import {
   Animated,
   Keyboard,
@@ -24,8 +24,8 @@ export default function WelcomeScreen() {
   const [focused, setFocused] = useState(false);
   const shakeAnim = useRef(new Animated.Value(0)).current;
   // RN 0.88: ref должен указывать на instance type (_TextInputInstance),
-  // а не на component type. ElementRef<typeof RNTextInput> — корректный способ.
-  const inputRef = useRef<ElementRef<typeof RNTextInput>>(null);
+  // а не на component type. ComponentRef<typeof RNTextInput> — корректный способ.
+  const inputRef = useRef<ComponentRef<typeof RNTextInput>>(null);
 
   async function handleStart() {
     if (!name.trim()) {
